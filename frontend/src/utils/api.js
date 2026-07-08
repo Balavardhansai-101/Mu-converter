@@ -1,9 +1,46 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_API_URL || '/api',
   timeout: 120000,
 });
+
+async function requestWithRetry(requestFn, retries = 1) {
+  try {
+    return await requestFn();
+  } catch (error) {
+    const isNetworkFailure = !error.response && (
+      error.code === 'ERR_NETWORK' ||
+      error.message?.includes('Network Error') ||
+      error.message?.includes('Failed to fetch')
+    );
+
+    if (isNetworkFailure && retries > 0) {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      return requestWithRetry(requestFn, retries - 1);
+    }
+
+    throw error;
+  }
+}
+
+export function getApiErrorMessage(error) {
+  const backendMessage = error.response?.data?.error || error.response?.data?.message;
+
+  if (backendMessage) {
+    return backendMessage;
+  }
+
+  if (!error.response && (
+    error.code === 'ERR_NETWORK' ||
+    error.message?.includes('Network Error') ||
+    error.message?.includes('Failed to fetch')
+  )) {
+    return 'Unable to reach the server. Make sure the backend is running.';
+  }
+
+  return 'Something went wrong. Please try again.';
+}
 
 export async function convertWordToPdf(files, onProgress) {
   const formData = new FormData();
@@ -59,8 +96,13 @@ export async function submitContact(data) {
   return res.data;
 }
 
+export async function signupUser(payload) {
+  const res = await requestWithRetry(() => API.post('/auth/signup', payload));
+  return res.data;
+}
+
 export async function loginUser(credentials) {
-  const res = await API.post('/auth/login', credentials);
+  const res = await requestWithRetry(() => API.post('/auth/login', credentials));
   return res.data;
 }
 

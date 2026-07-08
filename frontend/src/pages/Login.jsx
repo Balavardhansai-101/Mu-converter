@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { loginUser } from '../utils/api';
+import { getApiErrorMessage, loginUser } from '../utils/api';
 import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
@@ -31,11 +31,7 @@ export default function Login() {
       setTimeout(() => navigate('/'), 1200);
     } catch (loginError) {
       console.error('Login failed:', loginError);
-      if (loginError.response?.data?.error) {
-        setError(loginError.response.data.error);
-      } else {
-        setError('Login failed. Please try again.');
-      }
+      setError(getApiErrorMessage(loginError));
     } finally {
       setLoading(false);
     }

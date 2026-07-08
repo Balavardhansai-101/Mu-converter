@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-
-const API = axios.create({ baseURL: '/api', timeout: 120000 });
+import { getApiErrorMessage, signupUser } from '../utils/api';
 
 export default function Signup() {
   const [fullName, setFullName] = useState('');
@@ -26,19 +24,15 @@ export default function Signup() {
     setLoading(true);
 
     try {
-      const response = await API.post('/auth/signup', { fullName, email, password });
-      setSuccess(response.data.message || 'Signup successful!');
+      const response = await signupUser({ fullName, email, password });
+      setSuccess(response.message || 'Signup successful!');
       setFullName('');
       setEmail('');
       setPassword('');
       setTimeout(() => navigate('/login'), 1500);
     } catch (signupError) {
       console.error('Signup failed:', signupError);
-      if (signupError.response?.data?.error) {
-        setError(signupError.response.data.error);
-      } else {
-        setError('Signup failed. Please try again.');
-      }
+      setError(getApiErrorMessage(signupError));
     } finally {
       setLoading(false);
     }
