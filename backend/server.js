@@ -7,7 +7,7 @@ const routes = require('./routes');
 const { startCleanupScheduler } = require('./utils/cleaner');
 
 const app = express();
-const PORT = 5001;
+const PORT = process.env.PORT || 5001;
 
 // Ensure upload/output directories exist
 const uploadsDir = path.join(__dirname, 'uploads');
