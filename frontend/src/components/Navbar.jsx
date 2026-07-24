@@ -3,7 +3,6 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sun, Moon, Menu, X, Zap, Home as HomeIcon, ChevronDown } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
-import { useAuth } from '../context/AuthContext';
 import Logo from '../assets/mu-logo.svg';
 
 const toolsMenu = [
@@ -15,8 +14,6 @@ const toolsMenu = [
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
-  const { user, logout } = useAuth();
-  const currentUser = user;
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
@@ -203,9 +200,7 @@ export default function Navbar() {
               padding: '1rem 1.5rem',
             }}
           >
-            {[...toolsMenu, { label: 'Home', path: '/', icon: '🏠' }, { label: 'About', path: '/about', icon: 'ℹ️' }, { label: 'Contact', path: '/contact', icon: '✉️' },
-              ...(!currentUser ? [{ label: 'Login', path: '/login', icon: '🔐' }, { label: 'Sign Up', path: '/signup', icon: '📝' }] : [])
-            ].map(item => (
+            {[...toolsMenu, { label: 'Home', path: '/', icon: '🏠' }, { label: 'About', path: '/about', icon: 'ℹ️' }, { label: 'Contact', path: '/contact', icon: '✉️' }].map(item => (
               <NavLink key={item.path} to={item.path} style={({ isActive }) => ({
                 display: 'flex', alignItems: 'center', gap: '12px',
                 padding: '12px 0', borderBottom: '1px solid var(--color-border)',
@@ -215,14 +210,6 @@ export default function Navbar() {
                 <span>{item.icon}</span>{item.label}
               </NavLink>
             ))}
-            {user && (
-              <div style={{ marginTop: '0.75rem', padding: '1rem', borderRadius: '16px', background: 'rgba(99,102,241,0.08)' }}>
-                <p style={{ margin: 0, fontWeight: 700, color: 'var(--color-text)' }}>Hello, {user.fullName || user.username || user.email}</p>
-                <button onClick={logout} style={{ marginTop: '0.75rem', width: '100%', padding: '10px 14px', borderRadius: '12px', border: 'none', background: '#6366f1', color: '#fff', fontWeight: 700, cursor: 'pointer' }}>
-                  Logout
-                </button>
-              </div>
-            )}
             <div style={{ paddingTop: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <button onClick={toggleTheme} style={{
                 display: 'flex', alignItems: 'center', gap: '8px',

@@ -89,7 +89,7 @@ export function Terms() {
           </LegalSection>
 
           <LegalSection title="3. File Size and Rate Limits">
-            <p>The maximum file size is 50 MB per file. We reserve the right to implement rate limiting to prevent abuse of the service.</p>
+            <p>The maximum file size is 150 MB per file. We reserve the right to implement rate limiting to prevent abuse of the service.</p>
           </LegalSection>
 
           <LegalSection title="4. Disclaimer of Warranties">

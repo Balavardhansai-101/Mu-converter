@@ -27,7 +27,7 @@ export default function DragDropZone({ files, onFiles, onRemove, accept, label, 
     onDrop,
     accept,
     multiple,
-    maxSize: 50 * 1024 * 1024,
+    maxSize: 150 * 1024 * 1024,
   });
 
   const rejectedError = fileRejections.length > 0 ? fileRejections[0].errors[0]?.message : null;
@@ -87,7 +87,7 @@ export default function DragDropZone({ files, onFiles, onRemove, accept, label, 
             or <span style={{ color: '#6366f1', fontWeight: 600 }}>browse files</span> from your computer
           </p>
           <p style={{ color: 'var(--color-muted)', fontSize: '0.75rem', marginTop: '0.5rem' }}>
-            Max file size: 50 MB
+            Max file size: 150 MB
           </p>
         </motion.div>
       </motion.div>

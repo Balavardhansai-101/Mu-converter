@@ -51,7 +51,7 @@ const features = [
 
 const faqs = [
   { q: 'How long are my files stored?', a: 'Files are automatically deleted from our servers 10 minutes after processing. We never store your data permanently.' },
-  { q: 'What is the maximum file size?', a: 'You can upload files up to 50 MB per file. For larger files, please contact us.' },
+  { q: 'What is the maximum file size?', a: 'You can upload files up to 150 MB per file. For larger files, please contact us.' },
   { q: 'How many files can I convert at once?', a: 'You can convert up to 10 files simultaneously for conversions and 20 files for merging.' },
   { q: 'Is my data safe?', a: 'Absolutely. All file transfers are encrypted, and files are automatically purged after processing.' },
   { q: 'Can I convert complex Word documents?', a: 'Yes! We handle headings, paragraphs, bullet lists, and basic formatting. Complex layouts are preserved as best as possible.' },

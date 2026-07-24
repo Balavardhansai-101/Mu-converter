@@ -1,7 +1,14 @@
 import axios from 'axios';
 
+const configuredApiUrl = import.meta.env.VITE_API_URL?.trim();
+const apiBaseUrl = configuredApiUrl
+  ? `${configuredApiUrl.replace(/\/$/, '')}/api`
+  : import.meta.env.DEV
+    ? 'http://localhost:5001/api'
+    : '/api';
+
 const API = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL}/api`,
+  baseURL: apiBaseUrl,
   timeout: 120000,
 });
 async function requestWithRetry(requestFn, retries = 1) {
@@ -92,16 +99,6 @@ export async function createZip(fileNames) {
 
 export async function submitContact(data) {
   const res = await API.post('/extra/contact', data);
-  return res.data;
-}
-
-export async function signupUser(payload) {
-  const res = await requestWithRetry(() => API.post('/auth/signup', payload));
-  return res.data;
-}
-
-export async function loginUser(credentials) {
-  const res = await requestWithRetry(() => API.post('/auth/login', credentials));
   return res.data;
 }
 
